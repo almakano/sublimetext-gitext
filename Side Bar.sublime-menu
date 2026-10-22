@@ -1,0 +1,24 @@
+[
+    {
+        "caption": "GitExt",
+        "children": [
+            { "caption": "Init", "command": "gitext_init" },
+            { "caption": "DeInit", "command": "gitext_deinit" },
+            { "caption": "Status", "command": "gitext_status" },
+            { "caption": "diffTab", "command": "gitext_diff_tab" },
+            { "caption": "Config", "command": "gitext_config" },
+            { "caption": "Branch ▸", "command": "gitext_branch" },
+            { "caption": "Remotes ▸", "command": "gitext_remote" },
+            { "caption": "Pull", "command": "gitext_pull" },
+            { "caption": "Add", "command": "gitext_add_file", "args": { "paths": [] } },
+            { "caption": "Add all", "command": "gitext_add", "args": { "paths": [] } },
+            { "caption": "Reset changes", "command": "gitext_reset" },
+            { "caption": "Commit", "command": "gitext_commit", "args": { "paths": [] } },
+            { "caption": "Commit all", "command": "gitext_commit_all", "args": { "paths": [] } },
+            { "caption": "Commit n Push", "command": "gitext_commit_push", "args": { "paths": [] } },
+            { "caption": "Push", "command": "gitext_push" },
+            { "caption": "Logs", "command": "gitext_logs" },
+            { "caption": "File history", "command": "gitext_file_history" }
+        ]
+    }
+]
