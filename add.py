@@ -2,7 +2,14 @@ import os
 
 import sublime_plugin
 
-from .GitExt import find_folder, get_git_status, get_git_status_lines, resolve_folder, run_git_command, show_popup
+from .lib.git import (
+    find_folder,
+    get_git_status,
+    get_git_status_lines,
+    resolve_folder,
+    run_git_command,
+)
+from .lib.ui import show_popup
 
 
 def git_rel_paths(window, paths):

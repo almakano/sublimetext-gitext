@@ -60,11 +60,16 @@ Right-click in the editor or on a file/folder in the sidebar and open the **GitE
 | Push | Pushes the current branch to a selected remote. |
 | Logs | Shows recent commits; opens a commit diff. |
 | File history | Runs `git log -p -- <file>`. |
+| gitignore file | Appends the selected file's path to `.gitignore`. |
+| gitignore extension | Appends `*.ext` for the selected file's extension to `.gitignore`. |
+| gitignore dir | Appends the selected directory's path to `.gitignore`. |
 | Run | Opens the current file in the default application. |
 
 The `Run` item is a separate top-level context-menu entry.
 
 Menu items that cannot do anything (no repository, no changes, nothing staged) are disabled.
+
+The `gitignore` commands are disabled when the selection does not match the rule kind (a file for `gitignore file` and `gitignore extension`, a directory for `gitignore dir`), when the directory is the repository root, when the file has no extension, or when the rule is already present in `.gitignore`. Without a sidebar selection they act on the active file and its folder.
 
 The **Add**, **Add all**, **Commit**, **Commit all** and **Commit n Push** commands in the sidebar act on the selected path's repository.
 
@@ -80,10 +85,14 @@ The **Add**, **Add all**, **Commit**, **Commit all** and **Commit n Push** comma
 
 `show_gitdiff_on_open` runs `diffTab` automatically when a saved file from a Git repository is loaded.
 
+The file opens with `Preferences: GitExt Settings` in the command palette or with **Preferences → Package Settings → GitExt → Settings**.
+
 ## Notes
 
 - `diffTab` decorates the current view, so the buffer and line numbers are not modified.
+- The `gitignore` items read `.gitignore` in a background thread and cache the rules for a few seconds, so opening the menu does not block rendering. The cache is refreshed on window/view activation, after saving `.gitignore`, and after a rule is added.
 - The generated color scheme used for the green background is written to `Packages/User/gitext_diff.sublime-color-scheme`.
+- Shared code lives in the `lib` subpackage; every other module in the package root is a plugin loaded by Sublime Text.
 - The plugin is developed and tested on Windows. All commands, including the file `Run` action, work on macOS and Linux as well.
 
 ## License

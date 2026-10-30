@@ -1,0 +1,29 @@
+[
+    {
+        "caption": "Preferences",
+        "mnemonic": "n",
+        "id": "preferences",
+        "children": [
+            {
+                "caption": "Package Settings",
+                "mnemonic": "P",
+                "id": "package-settings",
+                "children": [
+                    {
+                        "caption": "GitExt",
+                        "children": [
+                            {
+                                "caption": "Settings",
+                                "mnemonic": "S",
+                                "command": "edit_settings",
+                                "args": {
+                                    "base_file": "${packages}/GitExt/GitExt.sublime-settings"
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+]

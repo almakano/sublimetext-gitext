@@ -1,6 +1,7 @@
 import sublime_plugin
 
-from .GitExt import get_git_status_lines, resolve_folder, run_git_command, show_popup
+from .lib.git import get_git_status_lines, resolve_folder, run_git_command
+from .lib.ui import show_popup
 
 
 def has_staged_changes(folder):

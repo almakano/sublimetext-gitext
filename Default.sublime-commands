@@ -1,3 +1,13 @@
 [
-    { "caption": "GitExt: diffTab", "command": "gitext_diff_tab" }
+    { "caption": "GitExt: diffTab", "command": "gitext_diff_tab" },
+    { "caption": "GitExt: gitignore file", "command": "gitext_gitignore_file" },
+    { "caption": "GitExt: gitignore extension", "command": "gitext_gitignore_extension" },
+    { "caption": "GitExt: gitignore dir", "command": "gitext_gitignore_dir" },
+    {
+        "caption": "Preferences: GitExt Settings",
+        "command": "edit_settings",
+        "args": {
+            "base_file": "${packages}/GitExt/GitExt.sublime-settings"
+        }
+    }
 ]

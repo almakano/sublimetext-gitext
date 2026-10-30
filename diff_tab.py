@@ -6,7 +6,8 @@ import re
 import sublime
 import sublime_plugin
 
-from .GitExt import find_folder, get_git_status, run_git_command, show_popup
+from .lib.git import find_folder, get_git_status, run_git_command
+from .lib.ui import show_popup
 
 HUNK_RE = re.compile(r"^@@ -\d+(?:,\d+)? \+(\d+)(?:,(\d+))? @@")
 ADDED_SCOPE = "gitext.diff.added"

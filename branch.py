@@ -1,9 +1,8 @@
-import subprocess
-
 import sublime
 import sublime_plugin
 
-from .GitExt import run_git_command, show_popup
+from .lib.git import run_git_command, run_git_sync
+from .lib.ui import show_popup
 
 
 class GitextBranchCommand(sublime_plugin.WindowCommand):
@@ -67,7 +66,7 @@ class GitextBranchCommand(sublime_plugin.WindowCommand):
 
     def branch_exists_local(self, folder, name):
         try:
-            output = subprocess.check_output(["git", "branch"], cwd=folder).decode()
+            output = run_git_sync(["branch"], folder)
             return name in output
         except Exception:
             return False

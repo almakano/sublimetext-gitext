@@ -1,6 +1,7 @@
 import sublime_plugin
 
-from .GitExt import run_git_command, show_popup
+from .lib.git import run_git_command
+from .lib.ui import show_popup
 
 
 class GitextPushCommand(sublime_plugin.WindowCommand):

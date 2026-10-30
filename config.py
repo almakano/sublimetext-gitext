@@ -2,7 +2,7 @@ import os
 
 import sublime_plugin
 
-from .GitExt import show_popup
+from .lib.ui import show_popup
 
 
 class GitextConfigCommand(sublime_plugin.WindowCommand):

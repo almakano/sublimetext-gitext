@@ -3,7 +3,8 @@ import shutil
 
 import sublime_plugin
 
-from .GitExt import get_git_status, show_popup
+from .lib.git import get_git_status
+from .lib.ui import show_popup
 
 
 class GitextDeinitCommand(sublime_plugin.WindowCommand):

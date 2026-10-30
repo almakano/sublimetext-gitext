@@ -18,7 +18,10 @@
             { "caption": "Commit n Push", "command": "gitext_commit_push" },
             { "caption": "Push", "command": "gitext_push" },
             { "caption": "Logs", "command": "gitext_logs" },
-            { "caption": "File history", "command": "gitext_file_history" }
+            { "caption": "File history", "command": "gitext_file_history" },
+            { "caption": "gitignore file", "command": "gitext_gitignore_file" },
+            { "caption": "gitignore extension", "command": "gitext_gitignore_extension" },
+            { "caption": "gitignore dir", "command": "gitext_gitignore_dir" }
         ]
     },
     { "caption": "Run in terminal", "command": "gitext_run" }

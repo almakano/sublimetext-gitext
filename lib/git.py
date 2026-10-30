@@ -1,14 +1,25 @@
-"""Общие функции для команд плагина GitExt."""
+"""Запуск git, поиск папки репозитория и кэш статуса для команд GitExt."""
+
+import os
+import subprocess
+import threading
+import time
 
 import sublime
-import subprocess
-import os
-import time
-import html
-import threading
+
+STATUS_CODES = " MADRCUT?!"
 
 # Ключи lastCheck/output оставлены для старых копий функции после перезагрузки плагина
 git_status_cache = { 'lastCheck': 0, 'output': None }
+
+def windows_startupinfo():
+    """STARTUPINFO со скрытым окном консоли; None вне Windows."""
+    if os.name != "nt":
+        return None
+    startupinfo = subprocess.STARTUPINFO()
+    startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
+    startupinfo.wShowWindow = subprocess.SW_HIDE
+    return startupinfo
 
 def get_git_status(folder):
 
@@ -19,17 +30,12 @@ def get_git_status(folder):
         return cached.get('output', '')
 
     print('GitExt', 'checking status')
-    startupinfo = None
-    if os.name == "nt":
-        startupinfo = subprocess.STARTUPINFO()
-        startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
-
     try:
         output = subprocess.check_output(
             ["git", "-c", "core.quotepath=false", "status", "--porcelain"],
             cwd=folder,
             stderr=subprocess.STDOUT,
-            startupinfo=startupinfo
+            startupinfo=windows_startupinfo()
         ).decode().strip()
         git_status_cache[folder] = { 'lastCheck': time.time(), 'output': output }
         print('GitExt', 'status', bool(output))
@@ -41,8 +47,6 @@ def get_git_status(folder):
     git_status_cache[folder] = { 'lastCheck': time.time(), 'output': error }
     print('GitExt', 'status error', error)
     return error
-
-STATUS_CODES = " MADRCUT?!"
 
 def get_git_status_lines(folder):
     """Строки git status --porcelain без сообщений git об ошибках."""
@@ -73,16 +77,17 @@ def resolve_folder(window, paths=None):
     folders = window.folders()
     return folders[0] if folders else None
 
+def run_git_sync(cmd, cwd):
+    """Вызов git, результат которого нужен сразу: проверки is_enabled и подобные."""
+    return subprocess.check_output(
+        ["git"] + cmd, cwd=cwd, stderr=subprocess.STDOUT, startupinfo=windows_startupinfo()
+    ).decode()
+
 def run_git_command(cmd, cwd, callback=None):
     def worker():
         sublime.set_timeout(lambda: print('GitExt request', cmd, cwd), 0)
         try:
-            startupinfo = None
-            if os.name == "nt":
-                startupinfo = subprocess.STARTUPINFO()
-                startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
-            
-            output = subprocess.check_output(["git"] + cmd, cwd=cwd, stderr=subprocess.STDOUT, startupinfo=startupinfo).decode()
+            output = run_git_sync(cmd, cwd)
             sublime.set_timeout(lambda: print('GitExt response', output[:100]), 0)
             if callback:
                 sublime.set_timeout(lambda: callback(output, None), 0)
@@ -96,16 +101,6 @@ def run_git_command(cmd, cwd, callback=None):
             sublime.set_timeout(lambda: print('GitExt worker error', error), 0)
             if callback:
                 sublime.set_timeout(lambda: callback(None, error), 0)
-    
+
     thread = threading.Thread(target=worker)
     thread.start()
-
-def show_popup(window, text, title="GitExt", max_width=900, max_height=600):
-    sublime.set_timeout(lambda: print('GitExt show_popup', text), 0)
-    view = window.active_view()
-    if view:
-        escaped = html.escape(text).replace('\n', '<br>')
-        html_text = "<b>{}</b><br>{}".format(html.escape(title), escaped)
-        view.show_popup(html_text, max_width=max_width, max_height=max_height)
-    else:
-        sublime.set_timeout(lambda: print('GitExt error view is undefined'), 0)
